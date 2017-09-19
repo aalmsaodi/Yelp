@@ -54,7 +54,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="keywords" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECR-rP-lOE" userLabel="catergories Label">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="keywords" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECR-rP-lOE" userLabel="categories Label">
                                                     <rect key="frame" x="91" y="72" width="124" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -86,7 +86,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="addressLabel" destination="RpW-rG-ZHM" id="foh-6e-6sw"/>
-                                            <outlet property="catergoriesLabel" destination="ECR-rP-lOE" id="Krt-4s-GnL"/>
+                                            <outlet property="categoriesLabel" destination="ECR-rP-lOE" id="uod-Zs-lT1"/>
                                             <outlet property="distanceLabel" destination="tNW-cL-AHu" id="Y76-LG-H42"/>
                                             <outlet property="nameLabel" destination="Gt0-Ef-qH5" id="Qj5-k6-qSg"/>
                                             <outlet property="numberReviewsLabel" destination="ICZ-rS-SyD" id="TvH-MN-wyr"/>

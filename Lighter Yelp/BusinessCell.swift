@@ -11,18 +11,11 @@ import UIKit
 class BusinessCell: UITableViewCell {
 
     @IBOutlet weak var thumbImageView: UIImageView!
-    
     @IBOutlet weak var reviewImageView: UIImageView!
-    
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var addressLabel: UILabel!
-    
-    @IBOutlet weak var catergoriesLabel: UILabel!
-    
+    @IBOutlet weak var categoriesLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
-    
-    
     @IBOutlet weak var numberReviewsLabel: UILabel!
     
     
