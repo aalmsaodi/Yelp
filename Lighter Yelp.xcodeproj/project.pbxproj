@@ -16,6 +16,11 @@
 		CEA102EE1F70872A0026EA53 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102ED1F70872A0026EA53 /* BusinessCell.swift */; };
 		CEA102F81F70A3D30026EA53 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102F71F70A3D30026EA53 /* Business.swift */; };
 		CEA102FA1F7174C60026EA53 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102F91F7174C60026EA53 /* YelpClient.swift */; };
+		CEFAEB701F74146400C3D5EA /* FiltersCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */; };
+		CEFAEB721F74250D00C3D5EA /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB711F74250D00C3D5EA /* Filters.swift */; };
+		CEFAEB741F7434CB00C3D5EA /* FiltersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */; };
+		CEFAEB761F7444FA00C3D5EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB751F7444FA00C3D5EA /* Constants.swift */; };
+		CEFAEB781F74AE1900C3D5EA /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +37,11 @@
 		CEA102ED1F70872A0026EA53 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		CEA102F71F70A3D30026EA53 /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		CEA102F91F7174C60026EA53 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpClient.swift; sourceTree = "<group>"; };
+		CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCells.swift; sourceTree = "<group>"; };
+		CEFAEB711F74250D00C3D5EA /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersVC.swift; sourceTree = "<group>"; };
+		CEFAEB751F7444FA00C3D5EA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				CE25D8E51F703C1F00E473F4 /* BusinessVC.swift */,
+				CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -109,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				CEA102ED1F70872A0026EA53 /* BusinessCell.swift */,
+				CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */,
+				CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -117,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				CEA102F71F70A3D30026EA53 /* Business.swift */,
+				CEFAEB711F74250D00C3D5EA /* Filters.swift */,
+				CEFAEB751F7444FA00C3D5EA /* Constants.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -253,11 +268,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFAEB781F74AE1900C3D5EA /* InfiniteScrollActivityView.swift in Sources */,
+				CEFAEB721F74250D00C3D5EA /* Filters.swift in Sources */,
 				CEA102FA1F7174C60026EA53 /* YelpClient.swift in Sources */,
 				CE25D8E61F703C1F00E473F4 /* BusinessVC.swift in Sources */,
+				CEFAEB701F74146400C3D5EA /* FiltersCells.swift in Sources */,
+				CEFAEB741F7434CB00C3D5EA /* FiltersVC.swift in Sources */,
 				CEA102F81F70A3D30026EA53 /* Business.swift in Sources */,
 				CE25D8E41F703C1F00E473F4 /* AppDelegate.swift in Sources */,
 				CEA102EE1F70872A0026EA53 /* BusinessCell.swift in Sources */,
+				CEFAEB761F7444FA00C3D5EA /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -75,6 +75,23 @@ class Business {
         
         reviewNum = dictionary["review_count"] as? NSNumber
     }
+    
+    class func businesses(array: [NSDictionary]) -> [Business] {
+        var businesses = [Business]()
+        for dictionary in array {
+            let business = Business(dictionary: dictionary)
+            businesses.append(business)
+        }
+        return businesses
+    }
+//    
+//    class func searchWithTerm(term: String, completion: @escaping ([Business]?, Error?) -> Void) {
+//        _ = YelpClient.sharedInstance.searchWithTerm(term, completion: completion)
+//    }
+//    
+    class func searchWithTerm(offsetBusinessesResutls: Int?, filters:Filters, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
+        _ = YelpClient.sharedInstance.searchWithTerm(offset:offsetBusinessesResutls, filters.searchTerm, sort: filters.sort, distance: filters.distance, categories: filters.categories, deals: filters.deals, completion: completion)
+    }
 
     
 }

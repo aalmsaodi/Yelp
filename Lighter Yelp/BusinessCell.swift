@@ -18,10 +18,32 @@ class BusinessCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var numberReviewsLabel: UILabel!
     
+    var business: Business! {
+        didSet{
+            nameLabel.text = business.name
+            addressLabel.text = business.address
+            categoriesLabel.text = business.categories
+            distanceLabel.text = business.distance
+            
+            if let numReviews = business.reviewNum {
+                numberReviewsLabel.text = String(describing: numReviews) + " Reviews"
+            }
+            
+            if let thumbURL = business.thumbImageURL {
+                thumbImageView.setImageWith(thumbURL)
+            }
+            
+            if let ratingURL = business.ratingImageURL {
+                reviewImageView.setImageWith(ratingURL)
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        thumbImageView.layer.cornerRadius = thumbImageView.frame.height/10
+        thumbImageView.layer.masksToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
