@@ -41,15 +41,13 @@ extension BusinessVC: UISearchBarDelegate {
         
         if sBar == self.searchBar {
             searchFilters.searchTerm = inputText
+            setupMapRegionAndSpan()
         } else if sBar == self.locationBar {
-            searchFilters.location = inputText
+            getCoordinatesForLocation()
         }
         
         sBar.resignFirstResponder()
         hideLocationBar()
-        
-        doSearch()
-        viewBusinessesOnMap()
     }
     
     func searchBarCancelButtonClicked(_ sBar: UISearchBar) {

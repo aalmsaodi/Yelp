@@ -23,14 +23,14 @@ class Filters {
         }
     }
     var deals:Bool!
-    var location:String!
+    var location:[String:Double]!
     
     init() {
         self.categories = [String]()
         self.deals = false
         self.sort = YelpSortMode.bestMatched
         self.distance = (Constants.DISTANCE[0]["code"] as! Int)
-        self.location = "San Jose"
+        self.location = ["lat": 37.77493, "lon": -122.419415]
     }
 }
     
