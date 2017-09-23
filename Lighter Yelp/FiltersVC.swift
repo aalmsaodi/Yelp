@@ -36,8 +36,8 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        let searchButton = UIBarButtonItem(title: "Search", style: .plain, target:self, action: #selector(searchBtnTapped))
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target:self, action: #selector(cancelBtnTapped))
+        let searchButton = UIBarButtonItem(image: UIImage(named: "search"), style: .plain, target:self, action: #selector(searchBtnTapped))
+        let cancelButton = UIBarButtonItem(image: UIImage(named: "cancel"), style: .plain, target:self, action: #selector(cancelBtnTapped))
         
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.leftBarButtonItem = searchButton
@@ -45,7 +45,7 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func cancelBtnTapped() {
-        
+        navigationController?.popViewController(animated: true)
     }
     
     func searchBtnTapped() {
@@ -60,75 +60,16 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == filterParameters.distance.rawValue || indexPath.section == filterParameters.sort.rawValue {
             guard  let cell = tableView.dequeueReusableCell(withIdentifier: "selectCell") as? SelectCell else {return UITableViewCell()}
             
-            switch indexPath.section {
-            case filterParameters.distance.rawValue:
-                cell.parameterLabel.text = (Constants.DISTANCE[indexPath.row]["name"] as! String)
-                if searchFilters.distance == (Constants.DISTANCE[indexPath.row]["code"] as! Int) {
-                    cell.accessoryType = .checkmark
-                } else {
-                    cell.accessoryType = .none
-                }
-                
-            case filterParameters.sort.rawValue:
-                cell.parameterLabel.text = (Constants.SORT[indexPath.row]["name"] as! String)
-                if searchFilters.sort.rawValue == Constants.SORT[indexPath.row]["code"] as! Int {
-                    cell.accessoryType = .checkmark
-                } else {
-                    cell.accessoryType = .none
-                }
-                
-            default:
-                cell.parameterLabel.text = "N/A"
-            }
-            
+            cell.indexPath = indexPath
+            cell.filters = searchFilters
             return cell
             
         } else {
             guard  let cell = tableView.dequeueReusableCell(withIdentifier: "switchCell") as? SwitchCell else {return UITableViewCell()}
             
-            switch indexPath.section {
-            case filterParameters.deals.rawValue:
-                cell.parameterLabel.text = "Offering a Deal"
-                if let switchState = searchFilters.deals {
-                    cell.onOffSwitch.isOn = switchState
-                }
-                cell.onOffSwitch.tag = -1
-                cell.onOffSwitch.addTarget(self, action: #selector(dealAdded), for: .valueChanged)
-            
-            case filterParameters.category.rawValue:
-                cell.parameterLabel.text = Constants.CATEGORIES[indexPath.row]["name"]
-                
-                if searchFilters.categories.contains(Constants.CATEGORIES[indexPath.row]["code"]!) {
-                    cell.onOffSwitch.isOn = true
-                } else {
-                    cell.onOffSwitch.isOn = false
-                }
-                cell.onOffSwitch.tag = indexPath.row
-                cell.onOffSwitch.addTarget(self, action: #selector(categoryChosen), for: .valueChanged)
-            
-            default:
-                cell.parameterLabel.text = "N/A"
-            }
+            cell.indexPath = indexPath
+            cell.filters = searchFilters
             return cell
-        }
-    }
-    
-    func dealAdded(sender: UISwitch) {
-        if sender.isOn {
-            searchFilters.deals = true
-        } else {
-            searchFilters.deals = false
-        }
-    }
-    
-    func categoryChosen(sender: UISwitch) {
-        if sender.tag > -1 {
-            
-            if sender.isOn {
-                searchFilters.categories.append(Constants.CATEGORIES[sender.tag]["code"]!)
-            } else {
-                searchFilters.categories.remove(at: searchFilters.categories.index(of: Constants.CATEGORIES[sender.tag]["code"]!)!)
-            }
         }
     }
    
@@ -138,7 +79,6 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == filterParameters.sort.rawValue {
             searchFilters.sort = YelpSortMode(rawValue: Constants.SORT[indexPath.row]["code"] as! YelpSortMode.RawValue)
         }
-        
 
         tableView.reloadData()
     }
@@ -151,14 +91,28 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UITableViewHeaderFooterView(frame: CGRect(x: 0, y: 0, width: 320, height: 45))
-        headerView.contentView.backgroundColor = UIColor(colorLiteralRed: 0x95/0xFF, green: 0xA3/0xFF, blue: 0xA4/0xFF, alpha: 0.9)
+        
+        let headerView = UITableViewHeaderFooterView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
+        headerView.contentView.backgroundColor = UIColor(colorLiteralRed: 0xd3/0xFF, green: 0x23/0xFF, blue: 0x23/0xFF, alpha: 0.5)
+        
+        let headerImageView = UIImageView(frame: CGRect(x: headerView.bounds.width-35, y: 5, width: headerView.bounds.height, height: headerView.bounds.height))
+        if sectionBooleans[section] {
+            let headerImage = UIImage(named: "arrowUp")
+            headerImageView.image = headerImage
+        } else {
+            let headerImage = UIImage(named: "arrowDown")
+            headerImageView.image = headerImage
+
+        }
+        headerView.addSubview(headerImageView)
+        
         headerView.tag = section
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tableViewHeaderTapped))
         tapRecognizer.delegate = self as? UIGestureRecognizerDelegate
         headerView.addGestureRecognizer(tapRecognizer)
         return headerView
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -171,12 +125,16 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 return 1
             }
         case filterParameters.sort.rawValue:
-            return Constants.SORT.count
+            if sectionBooleans[section] {
+                return Constants.SORT.count
+            } else {
+                return 1
+            }
         case filterParameters.category.rawValue:
             if sectionBooleans[section] {
                 return Constants.CATEGORIES.count
             } else {
-                return 1
+                return 4
             }
         default:
             return 0
@@ -186,7 +144,7 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case filterParameters.deals.rawValue:
-            return "Deal"
+            return nil//"Deal"
         case filterParameters.distance.rawValue:
             return "Distance"
         case filterParameters.sort.rawValue:

@@ -6,4 +6,5 @@ target 'Lighter Yelp' do
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager', '1.6.0'
   pod 'KNSwitcher'
+  pod 'SVProgressHUD'
 end

@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
 class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var locationBar: UISearchBar!
+    @IBOutlet weak var tableViewTopConstrain: NSLayoutConstraint!
     
     var businesses:[Business]!
     var searchFilters:Filters!
@@ -18,6 +23,8 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var offsetResults:Int = 20
     var isMoreDataLoading = false
     var loadingMoreView:InfiniteScrollActivityView?
+    var locationManager : CLLocationManager!
+    var longPressRecognizer:UILongPressGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,23 +34,27 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
-    
+        
         // Initialize the UISearchBar
         searchBar = UISearchBar()
         searchBar.delegate = self
+
+        locationBar.delegate = self
+        activateLocationBarCancelButton()
         
         // Add SearchBar to the NavigationBar
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         
-        let filterButton = UIBarButtonItem(title: "Filter", style: .plain, target:self, action: #selector(goToFilters))
+        let filterButton = UIBarButtonItem(image: UIImage(named:"filter"), style: .plain, target:self, action: #selector(goToFilters))
         navigationItem.leftBarButtonItem = filterButton
+        
+        let rightButton = UIBarButtonItem(image: UIImage(named:"map"), style: .plain, target:self, action: #selector(viewBusinessesStyle))
+        navigationItem.rightBarButtonItem = rightButton
         
         searchFilters = Filters()
         
-        if let searchTerm = searchBar.text {
-            doSearch(term: searchTerm)
-        }
+        doSearch()
         
         // Set up Infinite Scroll loading indicator
         let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
@@ -54,10 +65,78 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         var insets = tableView.contentInset
         insets.bottom += InfiniteScrollActivityView.defaultHeight
         tableView.contentInset = insets
+        
+        // set starting center location in San Francisco
+        let centerLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
+        goToLocation(location: centerLocation)
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = CLLocationDistance(searchFilters.distance ?? 200)
+        locationManager.requestWhenInUseAuthorization()
+        
+        longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(mapRecognitionTapped))
+        mapView.addGestureRecognizer(longPressRecognizer)
+        
+    }
+    
+    func mapRecognitionTapped(_ sender: UILongPressGestureRecognizer) {
+        let touchLocation = sender.location(in: mapView)
+        let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
+        
+        let location = CLLocation(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude)
+        
+        fetchCountryAndCity(location: location) { country, city in
+            self.locationBar.text = "\(city), \(country)"
+        }
+
     }
 
-    func goToFilters(){
+    func goToLocation(location: CLLocation) {
+        let span = MKCoordinateSpanMake(0.1, 0.1)
+        let region = MKCoordinateRegionMake(location.coordinate, span)
+        mapView.setRegion(region, animated: false)
+    }
+    
+    func goToFilters() {
         performSegue(withIdentifier: "toFilterSettingsVC" , sender: self)
+    }
+    
+    func viewBusinessesStyle() {
+        if navigationItem.rightBarButtonItem?.image == UIImage(named:"map") {
+            mapView.isHidden = false
+            viewBusinessesOnMap()
+            navigationItem.rightBarButtonItem?.image = UIImage(named: "list")
+        } else {
+            mapView.isHidden = true
+            navigationItem.rightBarButtonItem?.image = UIImage(named: "map")
+        }
+    }
+    
+    func viewBusinessesOnMap() {
+        guard let businessesOnMap = businesses else {return}
+        
+//        let location = locationBar.text
+//        let geocoder = CLGeocoder()
+//        geocoder.geocodeAddressString(location ?? "San Francisco") { [weak self] placemarks, error in
+//            if let placemark = placemarks?.first, let location = placemark.location {
+//                let mark = MKPlacemark(placemark: placemark)
+//                
+//                if var region = self?.mapView.region {
+//                    region.center = location.coordinate
+//                    region.span.longitudeDelta /= 8.0
+//                    region.span.latitudeDelta /= 8.0
+//                    self?.mapView.setRegion(region, animated: true)
+//                }
+//            }
+//        }
+//        
+        for business in businessesOnMap {
+            if let address = business.address, let name = business.name {
+                addAnnotationAtAddress(address: address, title: name)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,22 +153,6 @@ class BusinessVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.business = businesses[indexPath.row]
         
         return cell
-    }
-    
-    fileprivate func doSearch(term:String) {
-        
-        searchFilters.searchTerm = term
-        
-        Business.searchWithTerm(offsetBusinessesResutls: 0, filters: searchFilters, completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            
-            if error != nil {
-                print (error ?? "an Error in the HTTP Req")
-            }
-            
-            self.tableView.reloadData()
-        })
     }
     
     
@@ -124,6 +187,7 @@ extension BusinessVC: UIScrollViewDelegate {
     
     fileprivate func getMoreResults() {
         
+        removAllAnnotations()
         Business.searchWithTerm(offsetBusinessesResutls: offsetResults, filters: searchFilters, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             guard let resultBusinesses = businesses else {return}
@@ -151,35 +215,13 @@ extension BusinessVC: FiltersVCDelegate {
     }
     
     func triggerSearch(filtersVC: FiltersVC) {
-        if let searchTerm = searchBar.text {
-            doSearch(term: searchTerm)
-        }
-        
+            doSearch()
+            viewBusinessesOnMap()
     }
 }
 
-extension BusinessVC: UISearchBarDelegate {
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.setShowsCancelButton(true, animated: true)
-        return true
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        searchBar.setShowsCancelButton(false, animated: true)
-        return true
-    }
 
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchTerm = searchBar.text else {return}
-        doSearch(term: searchTerm)
-        searchBar.resignFirstResponder()
-    }
-}
+
+
+
 

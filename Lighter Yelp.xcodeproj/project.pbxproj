@@ -16,11 +16,14 @@
 		CEA102EE1F70872A0026EA53 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102ED1F70872A0026EA53 /* BusinessCell.swift */; };
 		CEA102F81F70A3D30026EA53 /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102F71F70A3D30026EA53 /* Business.swift */; };
 		CEA102FA1F7174C60026EA53 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA102F91F7174C60026EA53 /* YelpClient.swift */; };
-		CEFAEB701F74146400C3D5EA /* FiltersCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */; };
+		CEFAEB701F74146400C3D5EA /* FiltersSwitchCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB6F1F74146400C3D5EA /* FiltersSwitchCells.swift */; };
 		CEFAEB721F74250D00C3D5EA /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB711F74250D00C3D5EA /* Filters.swift */; };
 		CEFAEB741F7434CB00C3D5EA /* FiltersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */; };
 		CEFAEB761F7444FA00C3D5EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB751F7444FA00C3D5EA /* Constants.swift */; };
 		CEFAEB781F74AE1900C3D5EA /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */; };
+		CEFAEB7C1F75512700C3D5EA /* FiltersSelectCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB7B1F75512700C3D5EA /* FiltersSelectCells.swift */; };
+		CEFAEB801F769E7300C3D5EA /* BussinesVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */; };
+		CEFAEB821F769E9100C3D5EA /* BusinessVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,11 +40,14 @@
 		CEA102ED1F70872A0026EA53 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		CEA102F71F70A3D30026EA53 /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		CEA102F91F7174C60026EA53 /* YelpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpClient.swift; sourceTree = "<group>"; };
-		CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCells.swift; sourceTree = "<group>"; };
+		CEFAEB6F1F74146400C3D5EA /* FiltersSwitchCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersSwitchCells.swift; sourceTree = "<group>"; };
 		CEFAEB711F74250D00C3D5EA /* Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersVC.swift; sourceTree = "<group>"; };
 		CEFAEB751F7444FA00C3D5EA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
+		CEFAEB7B1F75512700C3D5EA /* FiltersSelectCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersSelectCells.swift; sourceTree = "<group>"; };
+		CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BussinesVC+Search.swift"; sourceTree = "<group>"; };
+		CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusinessVC+Map.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,8 @@
 			isa = PBXGroup;
 			children = (
 				CE25D8E51F703C1F00E473F4 /* BusinessVC.swift */,
+				CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */,
+				CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */,
 				CEFAEB731F7434CB00C3D5EA /* FiltersVC.swift */,
 			);
 			name = Controllers;
@@ -120,7 +128,8 @@
 			isa = PBXGroup;
 			children = (
 				CEA102ED1F70872A0026EA53 /* BusinessCell.swift */,
-				CEFAEB6F1F74146400C3D5EA /* FiltersCells.swift */,
+				CEFAEB6F1F74146400C3D5EA /* FiltersSwitchCells.swift */,
+				CEFAEB7B1F75512700C3D5EA /* FiltersSelectCells.swift */,
 				CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */,
 			);
 			name = View;
@@ -268,11 +277,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFAEB801F769E7300C3D5EA /* BussinesVC+Search.swift in Sources */,
 				CEFAEB781F74AE1900C3D5EA /* InfiniteScrollActivityView.swift in Sources */,
+				CEFAEB821F769E9100C3D5EA /* BusinessVC+Map.swift in Sources */,
+				CEFAEB7C1F75512700C3D5EA /* FiltersSelectCells.swift in Sources */,
 				CEFAEB721F74250D00C3D5EA /* Filters.swift in Sources */,
 				CEA102FA1F7174C60026EA53 /* YelpClient.swift in Sources */,
 				CE25D8E61F703C1F00E473F4 /* BusinessVC.swift in Sources */,
-				CEFAEB701F74146400C3D5EA /* FiltersCells.swift in Sources */,
+				CEFAEB701F74146400C3D5EA /* FiltersSwitchCells.swift in Sources */,
 				CEFAEB741F7434CB00C3D5EA /* FiltersVC.swift in Sources */,
 				CEA102F81F70A3D30026EA53 /* Business.swift in Sources */,
 				CE25D8E41F703C1F00E473F4 /* AppDelegate.swift in Sources */,

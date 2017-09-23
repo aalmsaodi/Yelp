@@ -84,13 +84,9 @@ class Business {
         }
         return businesses
     }
-//    
-//    class func searchWithTerm(term: String, completion: @escaping ([Business]?, Error?) -> Void) {
-//        _ = YelpClient.sharedInstance.searchWithTerm(term, completion: completion)
-//    }
-//    
+
     class func searchWithTerm(offsetBusinessesResutls: Int?, filters:Filters, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(offset:offsetBusinessesResutls, filters.searchTerm, sort: filters.sort, distance: filters.distance, categories: filters.categories, deals: filters.deals, completion: completion)
+        _ = YelpClient.sharedInstance.searchWithTerm(offset:offsetBusinessesResutls, filters.searchTerm ?? "", sort: filters.sort, location: filters.location, distance: filters.distance, categories: filters.categories, deals: filters.deals, completion: completion)
     }
 
     

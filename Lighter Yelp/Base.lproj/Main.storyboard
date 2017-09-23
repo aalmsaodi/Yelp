@@ -58,7 +58,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNW-cL-AHu">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNW-cL-AHu">
                                                     <rect key="frame" x="266" y="5" width="49" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.58431372550000005" green="0.63921568630000003" blue="0.64313725489999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -124,22 +124,45 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xN3-rF-07T">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="b62-hh-YEi" appends="YES" id="BQA-sE-nCE"/>
+                                </connections>
+                            </mapView>
+                            <searchBar hidden="YES" alpha="0.90000000000000002" contentMode="redraw" fixedFrame="YES" text="San Francisco" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kll-Bn-Jzx">
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.82745098039215681" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" red="0.82745098039999998" green="0.13725490200000001" blue="0.13725490200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="E8w-tN-xSK" secondAttribute="trailing" id="0fx-ou-XDE"/>
+                            <constraint firstAttribute="trailing" secondItem="xN3-rF-07T" secondAttribute="trailing" id="6kk-AC-xaa"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xN3-rF-07T" secondAttribute="bottom" id="6qx-HP-g6j"/>
+                            <constraint firstItem="xN3-rF-07T" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="BQK-4u-w6r"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="E8w-tN-xSK" secondAttribute="bottom" id="PF7-ta-cZN"/>
+                            <constraint firstItem="xN3-rF-07T" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="e35-3a-76I"/>
                             <constraint firstItem="E8w-tN-xSK" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kwC-K1-rxs"/>
                             <constraint firstItem="E8w-tN-xSK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ndT-ad-iPo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uwk-ix-Q3l"/>
                     <connections>
+                        <outlet property="locationBar" destination="Kll-Bn-Jzx" id="Cy8-eN-xbd"/>
+                        <outlet property="mapView" destination="xN3-rF-07T" id="DIm-1z-mXj"/>
                         <outlet property="tableView" destination="E8w-tN-xSK" id="rSP-8k-r66"/>
+                        <outlet property="tableViewTopConstrain" destination="kwC-K1-rxs" id="J6D-EF-gb8"/>
                         <segue destination="Otd-7F-vYf" kind="show" identifier="toFilterSettingsVC" id="sex-bF-5hI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="b62-hh-YEi"/>
             </objects>
             <point key="canvasLocation" x="1005" y="-547.18309859154931"/>
         </scene>
@@ -178,6 +201,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" offImage="switch:BE5-VH-O1o:offImage" translatesAutoresizingMaskIntoConstraints="NO" id="BE5-VH-O1o">
                                                     <rect key="frame" x="253" y="13" width="51" height="25"/>
+                                                    <color key="onTintColor" red="0.0" green="0.45098039215686275" blue="0.73333333333333328" alpha="0.7544305788590604" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -242,7 +266,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.76862745098039209" green="0.070588235294117646" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.82745098039999998" green="0.13725490200000001" blue="0.13725490200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

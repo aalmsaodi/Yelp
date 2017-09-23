@@ -12,7 +12,7 @@ class Filters {
     
     let MAX_RADIUS = 40000 //in meters
     
-    var searchTerm:String!
+    var searchTerm:String?
     var categories:[String]!
     var sort:YelpSortMode!
     var distance:Int? {
@@ -23,12 +23,14 @@ class Filters {
         }
     }
     var deals:Bool!
+    var location:String!
     
     init() {
         self.categories = [String]()
         self.deals = false
         self.sort = YelpSortMode.bestMatched
         self.distance = (Constants.DISTANCE[0]["code"] as! Int)
+        self.location = "San Jose"
     }
 }
     
