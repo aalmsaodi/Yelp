@@ -28,6 +28,7 @@
 		CEFAEB801F769E7300C3D5EA /* BussinesVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */; };
 		CEFAEB821F769E9100C3D5EA /* BusinessVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */; };
 		CEFC5F141F7841900046D5D4 /* DetailsVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC5F131F7841900046D5D4 /* DetailsVC+Map.swift */; };
+		CEFC5F181F7871AA0046D5D4 /* UILable+Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC5F171F7871AA0046D5D4 /* UILable+Copyable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BussinesVC+Search.swift"; sourceTree = "<group>"; };
 		CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusinessVC+Map.swift"; sourceTree = "<group>"; };
 		CEFC5F131F7841900046D5D4 /* DetailsVC+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DetailsVC+Map.swift"; sourceTree = "<group>"; };
+		CEFC5F171F7871AA0046D5D4 /* UILable+Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILable+Copyable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				CEFAEB6F1F74146400C3D5EA /* FiltersSwitchCells.swift */,
 				CEFAEB7B1F75512700C3D5EA /* FiltersSelectCells.swift */,
 				CEFAEB771F74AE1900C3D5EA /* InfiniteScrollActivityView.swift */,
+				CEFC5F171F7871AA0046D5D4 /* UILable+Copyable.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				CE9363C11F77688B0074A190 /* DetailsVC.swift in Sources */,
 				CEFAEB701F74146400C3D5EA /* FiltersSwitchCells.swift in Sources */,
 				CEFAEB741F7434CB00C3D5EA /* FiltersVC.swift in Sources */,
+				CEFC5F181F7871AA0046D5D4 /* UILable+Copyable.swift in Sources */,
 				CEA102F81F70A3D30026EA53 /* Business.swift in Sources */,
 				CE25D8E41F703C1F00E473F4 /* AppDelegate.swift in Sources */,
 				CEA102EE1F70872A0026EA53 /* BusinessCell.swift in Sources */,

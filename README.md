@@ -23,6 +23,7 @@ Completed features:
 * [x] Additional: Added a button on the map view that sets the search location and region to current location
 * [x] Additional: Expanding a location bar below Search Term Bar
 * [x] Additional: The abbility to call the resturant phone number from the returant detail page
+* [x] Additional: Made Address label on resturan detail page copyable for navigation purposes
 
 
 Walkthrough of Yelp Lighter:
