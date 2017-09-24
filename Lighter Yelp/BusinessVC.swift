@@ -30,7 +30,44 @@ class BusinessVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initializingBusinessVC()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+        
+        searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
+        
+        locationBar.delegate = self
+        activateLocationBarCancelButton()
+        
+        let filterButton = UIBarButtonItem(image: UIImage(named:"filter"), style: .plain, target:self, action: #selector(goToFiltersVC))
+        navigationItem.leftBarButtonItem = filterButton
+        
+        let rightButton = UIBarButtonItem(image: UIImage(named:"map"), style: .plain, target:self, action: #selector(viewBusinessesStyle))
+        navigationItem.rightBarButtonItem = rightButton
+        
+        searchFilters = Filters()
+        
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
+        
+        mapView.delegate = self
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = CLLocationDistance(searchFilters.distance ?? 200)
+        locationManager.requestWhenInUseAuthorization()
+        currentLocationBtn.addTarget(self, action: #selector(goOnMapToCurrentLocation), for: UIControlEvents.touchUpInside)
+        longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(mapRecognitionTapped))
+        mapView.addGestureRecognizer(longPressRecognizer)
     }
     
     func goToFiltersVC() {

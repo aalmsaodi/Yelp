@@ -28,7 +28,6 @@
 		CEFAEB801F769E7300C3D5EA /* BussinesVC+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */; };
 		CEFAEB821F769E9100C3D5EA /* BusinessVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */; };
 		CEFC5F141F7841900046D5D4 /* DetailsVC+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC5F131F7841900046D5D4 /* DetailsVC+Map.swift */; };
-		CEFC5F161F786A7B0046D5D4 /* BusinessVC+Initializing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFC5F151F786A7B0046D5D4 /* BusinessVC+Initializing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +56,6 @@
 		CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BussinesVC+Search.swift"; sourceTree = "<group>"; };
 		CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusinessVC+Map.swift"; sourceTree = "<group>"; };
 		CEFC5F131F7841900046D5D4 /* DetailsVC+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DetailsVC+Map.swift"; sourceTree = "<group>"; };
-		CEFC5F151F786A7B0046D5D4 /* BusinessVC+Initializing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BusinessVC+Initializing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				CE25D8E51F703C1F00E473F4 /* BusinessVC.swift */,
-				CEFC5F151F786A7B0046D5D4 /* BusinessVC+Initializing.swift */,
 				CEFAEB7F1F769E7300C3D5EA /* BussinesVC+Search.swift */,
 				CEFAEB811F769E9100C3D5EA /* BusinessVC+Map.swift */,
 				CE9363BC1F76B9BE0074A190 /* BusinessVC+Scroll.swift */,
@@ -301,7 +298,6 @@
 				CEFC5F141F7841900046D5D4 /* DetailsVC+Map.swift in Sources */,
 				CEA102FA1F7174C60026EA53 /* YelpClient.swift in Sources */,
 				CE25D8E61F703C1F00E473F4 /* BusinessVC.swift in Sources */,
-				CEFC5F161F786A7B0046D5D4 /* BusinessVC+Initializing.swift in Sources */,
 				CE9363BD1F76B9BE0074A190 /* BusinessVC+Scroll.swift in Sources */,
 				CE9363C11F77688B0074A190 /* DetailsVC.swift in Sources */,
 				CEFAEB701F74146400C3D5EA /* FiltersSwitchCells.swift in Sources */,
