@@ -14,10 +14,11 @@ class BusinessVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var locationBar: UISearchBar!
     @IBOutlet weak var tableViewTopConstrain: NSLayoutConstraint!
     
-    var businesses:[Business]!
+    var businesses:[Business]?
     var searchFilters:Filters!
     var searchBar: UISearchBar!
     var offsetResults:Int = 20
@@ -28,79 +29,49 @@ class BusinessVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.delegate = self
-        tableView.dataSource = self
-    
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
         
-        // Initialize the UISearchBar
-        searchBar = UISearchBar()
-        searchBar.delegate = self
-
-        locationBar.delegate = self
-        activateLocationBarCancelButton()
-        
-        // Add SearchBar to the NavigationBar
-        searchBar.sizeToFit()
-        navigationItem.titleView = searchBar
-        
-        let filterButton = UIBarButtonItem(image: UIImage(named:"filter"), style: .plain, target:self, action: #selector(goToFilters))
-        navigationItem.leftBarButtonItem = filterButton
-        
-        let rightButton = UIBarButtonItem(image: UIImage(named:"map"), style: .plain, target:self, action: #selector(viewBusinessesStyle))
-        navigationItem.rightBarButtonItem = rightButton
-        
-        searchFilters = Filters()
-        
-        doSearch()
-        
-        // Set up Infinite Scroll loading indicator
-        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
-        loadingMoreView = InfiniteScrollActivityView(frame: frame)
-        loadingMoreView!.isHidden = true
-        tableView.addSubview(loadingMoreView!)
-        
-        var insets = tableView.contentInset
-        insets.bottom += InfiniteScrollActivityView.defaultHeight
-        tableView.contentInset = insets
-        
-        // set starting center location in San Francisco
-//        let centerLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
-//        goToLocation(location: centerLocation)
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        locationManager.distanceFilter = CLLocationDistance(searchFilters.distance ?? 200)
-        locationManager.requestWhenInUseAuthorization()
-        
-        longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(mapRecognitionTapped))
-        mapView.addGestureRecognizer(longPressRecognizer)
-        
+        initializingBusinessVC()
     }
     
-    func goToFilters() {
-        performSegue(withIdentifier: "toFilterSettingsVC" , sender: self)
+    func goToFiltersVC() {
+        performSegue(withIdentifier: "toFiltersVC" , sender: self)
     }
     
     func viewBusinessesStyle() {
         if navigationItem.rightBarButtonItem?.image == UIImage(named:"map") {
             mapView.isHidden = false
+            currentLocationBtn.isHidden = false
             viewBusinessesOnMap()
             navigationItem.rightBarButtonItem?.image = UIImage(named: "list")
         } else {
             mapView.isHidden = true
+            currentLocationBtn.isHidden = true
             navigationItem.rightBarButtonItem?.image = UIImage(named: "map")
         }
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let filtersVC = segue.destination as? FiltersVC else {return}
-        filtersVC.delegate = self
-        filtersVC.searchFilters = searchFilters
+        
+        if segue.identifier == "toFiltersVC" {
+            guard let filtersVC = segue.destination as? FiltersVC else {return}
+            filtersVC.delegate = self
+            filtersVC.searchFilters = searchFilters
+        
+        } else if segue.identifier == "fromMapToDetailsVC" {
+            guard let detailsVC = segue.destination as? DetailsVC else {return}
+            if let mapAnnotation = sender as? MKAnnotation {
+                let index = Int(mapAnnotation.title!!)
+                detailsVC.business = businesses?[index!]
+            }
+            
+        } else if segue.identifier == "fromCellToDetailsVC" {
+            guard let detailsVC = segue.destination as? DetailsVC else {return}
+            if let cell = sender as? BusinessCell {
+                let index = tableView.indexPath(for: cell)?.row
+                detailsVC.business = businesses?[index!]
+            }
+        }
     }
 }
 
@@ -112,7 +83,6 @@ extension BusinessVC: FiltersVCDelegate {
     
     func triggerSearch(filtersVC: FiltersVC) {
             doSearch()
-            viewBusinessesOnMap()
     }
 }
 

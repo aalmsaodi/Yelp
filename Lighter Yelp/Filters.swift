@@ -30,7 +30,7 @@ class Filters {
         self.deals = false
         self.sort = YelpSortMode.bestMatched
         self.distance = (Constants.DISTANCE[0]["code"] as! Int)
-        self.location = ["lat": 37.77493, "lon": -122.419415]
+//        self.location = ["lat": 37.77493, "lon": -122.419415]
     }
 }
     

@@ -17,14 +17,16 @@ extension BusinessVC: UISearchBarDelegate {
         removAllAnnotations()
         
         Business.searchWithTerm(offsetBusinessesResutls: 0, filters: searchFilters, completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
+            guard let businessesResponse = businesses else {return}
+            self.businesses = businessesResponse
             
             if error != nil {
                 print (error ?? "an Error in the HTTP Req")
             }
             
             SVProgressHUD.dismiss()
+            self.setupMapRegionAndSpan()
+            self.viewBusinessesOnMap()
             self.tableView.reloadData()
         })
     }
@@ -36,14 +38,26 @@ extension BusinessVC: UISearchBarDelegate {
         return true
     }
     
+    
     func searchBarSearchButtonClicked(_ sBar: UISearchBar) {
         guard let inputText = sBar.text else {return}
         
-        if sBar == self.searchBar {
-            searchFilters.searchTerm = inputText
-            setupMapRegionAndSpan()
-        } else if sBar == self.locationBar {
-            getCoordinatesForLocation()
+        if let term = searchBar.text {
+            searchFilters.searchTerm = term
+        }
+        
+        //setting location and searching if event come from location bar
+        if sBar == locationBar {
+            if inputText.lowercased() == "current location" {
+                locationManager.startUpdatingLocation()
+            } else {
+                setSearchLocationCoordinates()
+            }
+        }
+        
+        //searching only if event comes from search bar
+        if sBar == searchBar {
+            doSearch()
         }
         
         sBar.resignFirstResponder()

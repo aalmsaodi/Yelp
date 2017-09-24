@@ -12,30 +12,27 @@ import CoreLocation
 
 extension BusinessVC: CLLocationManagerDelegate, MKMapViewDelegate {
     
-    
     func viewBusinessesOnMap() {
         guard let businessesOnMap = businesses else {return}
         
-        for business in businessesOnMap {
-            if let address = business.address, let name = business.name {
-                addAnnotationAtAddress(address: address, title: name)
-            }
+        for (i,business) in businessesOnMap.enumerated() {
+            addAnnotationAtCoordinate(coordinates: business.coordinate, index: i)
         }
     }
     
     func setupMapRegionAndSpan() {
-        let location = CLLocation(latitude: 37.7833, longitude: -122.4167)
+        let location = CLLocation(latitude: searchFilters.location["lat"]!, longitude: searchFilters.location["lon"]!)
         
         var spanValue:Double!
         switch searchFilters.distance! {
         case Constants.DISTANCE[0]["code"] as! Int:
-            spanValue = 0.05
+            spanValue = 0.03
         case Constants.DISTANCE[1]["code"] as! Int:
-            spanValue = 0.1
+            spanValue = 0.07
         case Constants.DISTANCE[2]["code"] as! Int:
-            spanValue = 0.2
+            spanValue = 0.1
         case Constants.DISTANCE[3]["code"] as! Int:
-            spanValue = 0.5
+            spanValue = 0.2
         default:
             spanValue = 0.1
         }
@@ -45,10 +42,8 @@ extension BusinessVC: CLLocationManagerDelegate, MKMapViewDelegate {
         mapView.setRegion(region, animated: true)
     }
     
-    func getCoordinatesForLocation() {
-        
+    func setSearchLocationCoordinates() {
         guard let location = locationBar.text else {return}
-        
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(location) { [weak self] placemarks, error in
             if let placemark = placemarks?.first, let location = placemark.location {
@@ -56,7 +51,6 @@ extension BusinessVC: CLLocationManagerDelegate, MKMapViewDelegate {
                 self?.searchFilters.location["lon"] = location.coordinate.longitude
                 
                 self?.doSearch()
-                self?.viewBusinessesOnMap()
             }
         }
         
@@ -74,24 +68,6 @@ extension BusinessVC: CLLocationManagerDelegate, MKMapViewDelegate {
         
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == CLAuthorizationStatus.authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            let span = MKCoordinateSpanMake(0.1, 0.1)
-            let region = MKCoordinateRegionMake(location.coordinate, span)
-            mapView.setRegion(region, animated: false)
-        }
-    }
-    
-    func updateMapView() {
-        
-    }
-    
     func fetchCountryAndCity(location: CLLocation, completion: @escaping (String, String) -> ()) {
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
@@ -103,28 +79,48 @@ extension BusinessVC: CLLocationManagerDelegate, MKMapViewDelegate {
         }
     }
     
-    // add an annotation with an address: String
-    func addAnnotationAtAddress(address: String, title: String) {
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(address) { (placemarks, error) in
-            if let placemarks = placemarks {
-                if placemarks.count != 0 {
-                    let coordinate = placemarks.first!.location!
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = coordinate.coordinate
-                    annotation.title = title
-                    self.mapView.addAnnotation(annotation)
-                }
-            }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
         }
     }
     
-    func removAllAnnotations(){
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        searchFilters.location = ["lat": locValue.latitude, "lon": locValue.longitude]
         
+        doSearch()
+    }
+
+    func addAnnotationAtCoordinate(coordinates:[String:Double], index:Int) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: coordinates["lat"]!, longitude: coordinates["lon"]!)
+        mapView.addAnnotation(annotation)
+        annotation.title = "\(index)"
+        self.mapView.addAnnotation(annotation)
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if (view.annotation?.title)!?.lowercased() != "current location" {
+            performSegue(withIdentifier: "fromMapToDetailsVC", sender: view.annotation)
+        }
+        //To hide title, and just use it as an index element
+        mapView.deselectAnnotation(view.annotation, animated: true)
+    }
+    
+    func goOnMapToCurrentLocation()  {
+        locationManager.startUpdatingLocation()
+        locationBar.text = "Current Location"
+    }
+    
+    func removAllAnnotations(){
         self.mapView.annotations.forEach {
             if !($0 is MKUserLocation) {
                 self.mapView.removeAnnotation($0)
             }
         }
     }
+
 }
+

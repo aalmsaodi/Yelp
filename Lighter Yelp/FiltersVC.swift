@@ -41,7 +41,6 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.leftBarButtonItem = searchButton
-        
     }
     
     func cancelBtnTapped() {
@@ -113,28 +112,27 @@ class FiltersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case filterParameters.deals.rawValue:
             return 1
         case filterParameters.distance.rawValue:
-            if sectionBooleans[section] {
+            if !sectionBooleans[section] {
                 return Constants.DISTANCE.count
             } else {
-                return 1
+                return 0
             }
         case filterParameters.sort.rawValue:
-            if sectionBooleans[section] {
+            if !sectionBooleans[section] {
                 return Constants.SORT.count
             } else {
-                return 1
+                return 0
             }
         case filterParameters.category.rawValue:
             if sectionBooleans[section] {
                 return Constants.CATEGORIES.count
             } else {
-                return 4
+                return 3
             }
         default:
             return 0

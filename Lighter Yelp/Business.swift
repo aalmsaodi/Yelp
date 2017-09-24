@@ -12,6 +12,9 @@ class Business {
     
     let name: String?
     let address: String?
+    let coordinate: [String:Double]
+    let phone:String?
+    let snippet:String?
     let thumbImageURL: URL?
     let categories: String?
     let distance: String?
@@ -30,6 +33,7 @@ class Business {
         
         let location = dictionary["location"] as? NSDictionary
         var address = ""
+        var cll = [String:Double]()
         if location != nil {
             let addressArray = location!["address"] as? NSArray
             if addressArray != nil && addressArray!.count > 0 {
@@ -43,8 +47,19 @@ class Business {
                 }
                 address += neighborhoods![0] as! String
             }
+            
+            if let coordinatesLocation = location!["coordinate"] as? NSDictionary {
+                let lat = (coordinatesLocation.value(forKey: "latitude") as! Double)
+                let lon = (coordinatesLocation.value(forKey: "longitude") as! Double)
+                cll = ["lat": lat, "lon": lon]
+            } else {
+                // if no coordinates provided, set these defaults coordinates
+                cll = ["lat": 0, "lon": 0]
+            }
+            
         }
         self.address = address
+        coordinate = cll
         
         let categoriesArray = dictionary["categories"] as? [[String]]
         if categoriesArray != nil {
@@ -57,6 +72,10 @@ class Business {
         } else {
             categories = nil
         }
+        
+        phone = dictionary["phone"] as? String
+        
+        snippet = dictionary["snippet_text"] as? String
         
         let distanceMeters = dictionary["distance"] as? NSNumber
         if distanceMeters != nil {
