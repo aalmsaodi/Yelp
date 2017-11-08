@@ -7,106 +7,67 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class Business {
+  
+  let name: String
+  var address: String?
+  let coordinate: [String:Double]
+  let ratingImageURL: URL
+  let reviewNum: String?
+  let phone:String?
+  let snippet:String?
+  let thumbImageURL: URL?
+  let categories: String?
+  let distance: String?
+
+  
+  init(dictionary: JSON) {
+    self.name = dictionary["name"].string!
     
-    let name: String?
-    let address: String?
-    let coordinate: [String:Double]
-    let phone:String?
-    let snippet:String?
-    let thumbImageURL: URL?
-    let categories: String?
-    let distance: String?
-    let ratingImageURL: URL?
-    let reviewNum: NSNumber?
-    
-    init(dictionary: NSDictionary) {
-        name = dictionary["name"] as? String
-        
-        let imageURLString = dictionary["image_url"] as? String
-        if imageURLString != nil {
-            thumbImageURL = URL(string: imageURLString!)!
-        } else {
-            thumbImageURL = nil
-        }
-        
-        let location = dictionary["location"] as? NSDictionary
-        var address = ""
-        var cll = [String:Double]()
-        if location != nil {
-            let addressArray = location!["address"] as? NSArray
-            if addressArray != nil && addressArray!.count > 0 {
-                address = addressArray![0] as! String
-            }
-            
-            let neighborhoods = location!["neighborhoods"] as? NSArray
-            if neighborhoods != nil && neighborhoods!.count > 0 {
-                if !address.isEmpty {
-                    address += ", "
-                }
-                address += neighborhoods![0] as! String
-            }
-            
-            if let coordinatesLocation = location!["coordinate"] as? NSDictionary {
-                let lat = (coordinatesLocation.value(forKey: "latitude") as! Double)
-                let lon = (coordinatesLocation.value(forKey: "longitude") as! Double)
-                cll = ["lat": lat, "lon": lon]
-            } else {
-                // if no coordinates provided, set these defaults coordinates
-                cll = ["lat": 0, "lon": 0]
-            }
-            
-        }
-        self.address = address
-        coordinate = cll
-        
-        let categoriesArray = dictionary["categories"] as? [[String]]
-        if categoriesArray != nil {
-            var categoryNames = [String]()
-            for category in categoriesArray! {
-                let categoryName = category[0]
-                categoryNames.append(categoryName)
-            }
-            categories = categoryNames.joined(separator: ", ")
-        } else {
-            categories = nil
-        }
-        
-        phone = dictionary["phone"] as? String
-        
-        snippet = dictionary["snippet_text"] as? String
-        
-        let distanceMeters = dictionary["distance"] as? NSNumber
-        if distanceMeters != nil {
-            let milesPerMeter = 0.000621371
-            distance = String(format: "%.2f mi", milesPerMeter * distanceMeters!.doubleValue)
-        } else {
-            distance = nil
-        }
-        
-        let ratingImageURLString = dictionary["rating_img_url_large"] as? String
-        if ratingImageURLString != nil {
-            ratingImageURL = URL(string: ratingImageURLString!)
-        } else {
-            ratingImageURL = nil
-        }
-        
-        reviewNum = dictionary["review_count"] as? NSNumber
-    }
-    
-    class func businesses(array: [NSDictionary]) -> [Business] {
-        var businesses = [Business]()
-        for dictionary in array {
-            let business = Business(dictionary: dictionary)
-            businesses.append(business)
-        }
-        return businesses
+    let location = dictionary["location"].dictionary!
+    if let address = location["address"]?.array?.first?.string {
+      if let neighborhood = location["neighborhoods"]?.array?.first?.string {
+        self.address = address + ", " + neighborhood
+      }
+    } else {
+      self.address = nil
     }
 
-    class func searchWithTerm(offsetBusinessesResutls: Int?, filters:Filters, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
-        _ = YelpClient.sharedInstance.searchWithTerm(offset:offsetBusinessesResutls, filters.searchTerm ?? "", sort: filters.sort, location: filters.location, distance: filters.distance, categories: filters.categories, deals: filters.deals, completion: completion)
-    }
-
+    let lat = location["coordinate"]?["latitude"].double!
+    let lon = location["coordinate"]?["longitude"].double!
+    self.coordinate = ["lat": lat!, "lon": lon!]
     
+    let ratingImageURLString = dictionary["rating_img_url_large"].string!
+    self.ratingImageURL = URL(string: ratingImageURLString)!
+    
+    self.phone = dictionary["phone"].string
+    self.snippet = dictionary["snippet_text"].string
+    self.reviewNum = dictionary["review_count"].string
+    
+    if let imageURLString = dictionary["image_url"].string {
+      self.thumbImageURL = URL(string: imageURLString)
+    } else {
+      self.thumbImageURL = nil
+    }
+    
+    if let categoriesArray = dictionary["categories"].arrayObject as? [[String]] {
+      self.categories = categoriesArray.flatMap{$0.first}.joined(separator: ", ")
+    } else {
+      self.categories = nil
+    }
+    
+    if let distanceMeters = dictionary["distance"].number {
+      let milesPerMeter = 0.000621371
+      self.distance = String(format: "%.2f mi", milesPerMeter * distanceMeters.doubleValue)
+    } else {
+      self.distance = nil
+    }
+  }
+  
+  class func searchWithTerm(offsetBusinessesResutls: Int?, filters:Filters, completion: @escaping ([Business]?, Error?) -> Void) -> Void {
+    _ = YelpClient.sharedInstance.searchWithTerm(offset:offsetBusinessesResutls, filters.searchTerm ?? "", sort: filters.sort, location: filters.location, distance: filters.distance, categories: filters.categories, deals: filters.deals, completion: completion)
+  }
+  
 }

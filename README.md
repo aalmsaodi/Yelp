@@ -1,8 +1,6 @@
 # Lighter Yelp (Food)
 This is an iOS app that mimics the functionality of the original Yelp app, but with focus on Food and Resturants. The app is using Yelp API (https://www.yelp.com/developers/documentation/v2). 
 
-Time spent: 40 hours spent in total
-
 Completed features:
 * [x] Required: Table rows should be dynamic height according to the content height
 * [x] Required: Custom cells should have the proper Auto Layout constraints

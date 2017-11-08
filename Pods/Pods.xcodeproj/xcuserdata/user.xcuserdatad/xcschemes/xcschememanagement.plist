@@ -29,10 +29,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>1ED8BE8BD6A53853974A60E1AC8B1019</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2395DA9BDBAFBC6BC95DA6AB1E0A0641</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,12 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8412155E4925DF6F40D0E705118FCEA1</key>
+		<key>88D4840395631D24EDFFD2842A534FC9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F2EDDF406591BE13DAE0D33381C1ACEE</key>
+		<key>9CEA1386B5DBD90A91E966F3839D228B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

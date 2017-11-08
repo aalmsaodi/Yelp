@@ -7,4 +7,5 @@ target 'Lighter Yelp' do
   pod 'BDBOAuth1Manager', '1.6.0'
   pod 'KNSwitcher'
   pod 'SVProgressHUD'
+  pod 'SwiftyJSON' 
 end
